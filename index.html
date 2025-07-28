@@ -863,6 +863,7 @@
                     <button class="tab-btn active" data-tab="debian">Debian Packages</button>
                     <button class="tab-btn" data-tab="docker">Docker</button>
                     <button class="tab-btn" data-tab="source">Source Code</button>
+		    <button class="tab-btn" data-tab="installer">Installer Script</button>
                 </div>
                 
                 <div class="tab-content active" id="debian-tab">
@@ -953,6 +954,25 @@
                         npm start
                     </div>
                 </div>
+
+		<div class="tab-content" id="installer-tab">
+		    <div class="code-block">
+		        # Download and run the installer script<br>
+		        curl -sSL https://gist.githubusercontent.com/gekomod/16a940f9e53dc3510562053393fce798/raw/da7d2103e0acb542cc32a86fd4384740a79cade4/install.sh | bash<br><br>
+		        
+		        # Or download first and inspect before running<br>
+		        wget https://gist.githubusercontent.com/gekomod/16a940f9e53dc3510562053393fce798/raw/da7d2103e0acb542cc32a86fd4384740a79cade4/install.sh<br>
+		        chmod +x install.sh<br>
+		        ./install.sh
+		    </div>
+		    
+		    <div style="margin-top: 20px; text-align: center;">
+		        <a href="https://gist.githubusercontent.com/gekomod/16a940f9e53dc3510562053393fce798/raw/da7d2103e0acb542cc32a86fd4384740a79cade4/install.sh" class="btn btn-primary" target="_blank" download="nas-panel-installer.sh">
+		            <i class="fas fa-download"></i>
+		            Download Installer Script
+		        </a>
+		    </div>
+		</div>
             </div>
         </section>
 
