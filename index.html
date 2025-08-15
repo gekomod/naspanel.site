@@ -547,6 +547,100 @@
             display: block;
         }
 
+		.screenshot-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            overflow: auto;
+            animation: fadeIn 0.3s;
+        }
+        
+        .modal-content {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 1200px;
+            max-height: 80vh;
+            object-fit: contain;
+            animation: zoomIn 0.3s;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 35px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        .close-modal:hover {
+            color: var(--accent);
+        }
+        
+        .screenshot-caption {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 1200px;
+            text-align: center;
+            color: white;
+            padding: 10px 0;
+            font-size: 18px;
+        }
+        
+        @keyframes zoomIn {
+            from {transform: scale(0.8); opacity: 0;}
+            to {transform: scale(1); opacity: 1;}
+        }
+        
+        /* Przyciski nawigacyjne */
+        .prev, .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            width: auto;
+            padding: 16px;
+            margin-top: -22px;
+            color: white;
+            font-weight: bold;
+            font-size: 24px;
+            transition: 0.3s;
+            user-select: none;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .next {
+            right: 0;
+            border-radius: 5px 0 0 5px;
+        }
+        
+        .prev:hover, .next:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: var(--accent);
+        }
+        
+        /* Dla małych ekranów */
+        @media (max-width: 768px) {
+            .modal-content {
+                width: 95%;
+            }
+            
+            .close-modal {
+                top: 10px;
+                right: 15px;
+                font-size: 30px;
+            }
+        }
+
         /* Footer */
         .footer {
             text-align: center;
@@ -1069,18 +1163,26 @@
             
             <div class="screenshots">
                 <div class="screenshot-grid">
-                    <div class="screenshot">
+                    <div class="screenshot" onclick="openModal(0)">
                         <img src="https://raw.githubusercontent.com/gekomod/naspanel.site/refs/heads/main/dash.png" alt="Dashboard">
                     </div>
-                    <div class="screenshot">
+                    <div class="screenshot" onclick="openModal(1)">
                         <img src="https://raw.githubusercontent.com/gekomod/naspanel.site/refs/heads/main/storage.png" alt="Storage Management">
                     </div>
-                    <div class="screenshot">
+                    <div class="screenshot" onclick="openModal(2)">
                         <img src="https://raw.githubusercontent.com/gekomod/naspanel.site/refs/heads/main/docker.png" alt="Docker Management">
                     </div>
                 </div>
             </div>
         </section>
+
+		<div id="screenshotModal" class="screenshot-modal">
+	        <span class="close-modal" onclick="closeModal()">&times;</span>
+	        <span class="prev" onclick="plusSlides(-1)">&#10094;</span>
+	        <span class="next" onclick="plusSlides(1)">&#10095;</span>
+	        <img class="modal-content" id="modalImage">
+	        <div class="screenshot-caption" id="caption"></div>
+	    </div>
 
         <!-- GitHub stats -->
         <div class="github-stats">
@@ -1173,7 +1275,7 @@
                 console.error('Przełącznik NIE znaleziony!');
             }
             
-                        function fetchReleases() {
+            function fetchReleases() {
                 // NAS-Panel
                 $.getJSON('https://api.github.com/repos/gekomod/nas-panel/releases/latest')
                     .done(function(data) {
@@ -1268,7 +1370,79 @@
             });
         };
 
-        // Set initial state for fade-in elements
+		let currentSlideIndex = 0;
+        const screenshots = [
+            {
+                src: "https://raw.githubusercontent.com/gekomod/naspanel.site/refs/heads/main/dash.png",
+                alt: "Dashboard"
+            },
+            {
+                src: "https://raw.githubusercontent.com/gekomod/naspanel.site/refs/heads/main/storage.png",
+                alt: "Storage Management"
+            },
+            {
+                src: "https://raw.githubusercontent.com/gekomod/naspanel.site/refs/heads/main/docker.png",
+                alt: "Docker Management"
+            }
+        ];
+
+        function openModal(index) {
+            currentSlideIndex = index;
+            const modal = document.getElementById("screenshotModal");
+            const modalImg = document.getElementById("modalImage");
+            const captionText = document.getElementById("caption");
+            
+            modal.style.display = "block";
+            modalImg.src = screenshots[index].src;
+            captionText.innerHTML = screenshots[index].alt;
+
+            document.body.style.overflow = "hidden";
+        }
+        
+        // Zamknij modal
+        function closeModal() {
+            document.getElementById("screenshotModal").style.display = "none";
+            document.body.style.overflow = "auto";
+        }
+        
+        function plusSlides(n) {
+            currentSlideIndex += n;
+
+            if (currentSlideIndex >= screenshots.length) {
+                currentSlideIndex = 0;
+            } else if (currentSlideIndex < 0) {
+                currentSlideIndex = screenshots.length - 1;
+            }
+            
+            const modalImg = document.getElementById("modalImage");
+            const captionText = document.getElementById("caption");
+            
+            modalImg.src = screenshots[currentSlideIndex].src;
+            captionText.innerHTML = screenshots[currentSlideIndex].alt;
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById("screenshotModal");
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+
+        document.addEventListener('keydown', function(event) {
+            const modal = document.getElementById("screenshotModal");
+            if (event.key === "Escape" && modal.style.display === "block") {
+                closeModal();
+            }
+
+            if (modal.style.display === "block") {
+                if (event.key === "ArrowLeft") {
+                    plusSlides(-1);
+                } else if (event.key === "ArrowRight") {
+                    plusSlides(1);
+                }
+            }
+        });
+
         document.querySelectorAll('.fade-in').forEach(el => {
             el.style.opacity = '0';
             el.style.transform = 'translateY(20px)';
