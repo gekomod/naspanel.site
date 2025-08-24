@@ -16,13 +16,14 @@
             --text: #2c3e50;
             --text-light: #7f8c8d;
             --bg: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            --card-bg: rgba(255, 255, 255, 0.9);
-            --card-border: 1px solid rgba(255, 255, 255, 0.18);
-            --card-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --card-border: 1px solid rgba(255, 255, 255, 0.2);
+            --card-shadow: 0 20px 40px rgba(31, 38, 135, 0.15);
             --error: #ff4757;
             --warning: #ffa502;
             --success: #2ed573;
             --transition: all 0.3s ease;
+            --border-radius: 16px;
         }
 
         [data-theme="dark"] {
@@ -34,16 +35,16 @@
             --text: #ecf0f1;
             --text-light: #bdc3c7;
             --bg: #121212;
-            --card-bg: rgba(30, 30, 30, 0.9);
-            --card-border: 1px solid rgba(255, 255, 255, 0.08);
-            --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            --card-bg: rgba(30, 30, 30, 0.95);
+            --card-border: 1px solid rgba(255, 255, 255, 0.1);
+            --card-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
         body {
@@ -52,6 +53,7 @@
             min-height: 100vh;
             overflow-x: hidden;
             transition: var(--transition);
+            line-height: 1.6;
         }
 
         /* Background shapes */
@@ -66,31 +68,41 @@
         .shape {
             position: absolute;
             border-radius: 50%;
-            filter: blur(0);
-            opacity: 0.8;
+            filter: blur(60px);
+            opacity: 0.6;
+            animation: float 20s infinite ease-in-out;
         }
 
         .shape-1 {
-            width: 300px;
-            height: 300px;
-            top: -50px;
-            left: -50px;
+            width: 400px;
+            height: 400px;
+            top: -100px;
+            left: -100px;
             background: linear-gradient(45deg, var(--primary), var(--secondary));
-            animation: float 15s infinite ease-in-out;
         }
 
         .shape-2 {
+            width: 300px;
+            height: 300px;
+            bottom: -80px;
+            right: -80px;
+            background: linear-gradient(45deg, var(--accent), var(--accent-light));
+            animation-delay: -10s;
+        }
+
+        .shape-3 {
             width: 200px;
             height: 200px;
-            bottom: -30px;
-            right: -30px;
-            background: linear-gradient(45deg, var(--accent), var(--accent-light));
-            animation: float 18s infinite ease-in-out reverse;
+            top: 40%;
+            left: 60%;
+            background: linear-gradient(45deg, var(--secondary), var(--primary-light));
+            animation-delay: -5s;
         }
 
         @keyframes float {
-            0%, 100% { transform: translate(0, 0); }
-            50% { transform: translate(20px, 20px); }
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(30px, 30px) rotate(120deg); }
+            66% { transform: translate(-20px, 20px) rotate(240deg); }
         }
 
         /* Main container */
@@ -106,6 +118,10 @@
             justify-content: space-between;
             align-items: center;
             padding: 30px 0;
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
         .logo-container {
@@ -115,15 +131,17 @@
         }
 
         .logo-icon {
-            width: 44px;
-            height: 44px;
+            width: 48px;
+            height: 48px;
             background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
-            border-radius: 50%;
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
             font-weight: bold;
+            font-size: 20px;
+            box-shadow: 0 4px 20px rgba(106, 17, 203, 0.3);
         }
 
         .logo-text {
@@ -140,7 +158,7 @@
         .nav {
             display: flex;
             align-items: center;
-            gap: 30px;
+            gap: 25px;
         }
 
         .nav-link {
@@ -149,10 +167,13 @@
             font-weight: 500;
             transition: var(--transition);
             position: relative;
+            padding: 8px 12px;
+            border-radius: 10px;
         }
 
         .nav-link:hover {
             color: var(--primary);
+            background: rgba(106, 17, 203, 0.1);
         }
 
         .nav-link.active {
@@ -163,10 +184,12 @@
             content: '';
             position: absolute;
             bottom: -5px;
-            left: 0;
-            width: 100%;
-            height: 2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 3px;
             background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
         }
 
         /* Theme switcher */
@@ -219,26 +242,27 @@
         /* Hero section */
         .hero {
             text-align: center;
-            padding: 80px 0;
+            padding: 100px 0;
             position: relative;
         }
 
         .hero-title {
-            font-size: 48px;
+            font-size: 3.5rem;
             font-weight: 800;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
             background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
             line-height: 1.2;
+            letter-spacing: -0.5px;
         }
 
         .hero-subtitle {
-            font-size: 20px;
+            font-size: 1.25rem;
             color: var(--text-light);
             max-width: 700px;
-            margin: 0 auto 40px;
+            margin: 0 auto 50px;
             line-height: 1.6;
         }
 
@@ -246,16 +270,17 @@
             display: flex;
             gap: 20px;
             justify-content: center;
-            margin-top: 30px;
+            margin-top: 40px;
+            flex-wrap: wrap;
         }
 
         /* Buttons */
         .btn {
-            padding: 12px 24px;
-            border-radius: 12px;
+            padding: 16px 32px;
+            border-radius: var(--border-radius);
             border: none;
             cursor: pointer;
-            font-weight: 500;
+            font-weight: 600;
             font-size: 16px;
             transition: var(--transition);
             display: inline-flex;
@@ -267,78 +292,93 @@
         .btn-primary {
             background: linear-gradient(45deg, var(--primary), var(--secondary));
             color: white;
-            box-shadow: 0 4px 15px rgba(106, 17, 203, 0.3);
+            box-shadow: 0 8px 25px rgba(106, 17, 203, 0.3);
         }
 
         .btn-primary:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(106, 17, 203, 0.4);
+            box-shadow: 0 12px 35px rgba(106, 17, 203, 0.4);
         }
 
         .btn-outline {
             background: transparent;
             color: var(--primary);
-            border: 1px solid var(--primary);
+            border: 2px solid var(--primary);
         }
 
         .btn-outline:hover {
             background: rgba(106, 17, 203, 0.1);
+            transform: translateY(-2px);
         }
 
         /* Features */
         .section-title {
-            font-size: 32px;
+            font-size: 2.5rem;
             font-weight: 700;
             margin-bottom: 50px;
             text-align: center;
             color: var(--text);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
         }
 
         .section-subtitle {
-            font-size: 18px;
+            font-size: 1.125rem;
             color: var(--text-light);
             text-align: center;
             max-width: 700px;
-            margin: 0 auto 50px;
+            margin: 30px auto 60px;
             line-height: 1.6;
         }
 
         .features {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 30px;
-            margin-bottom: 80px;
+            margin-bottom: 100px;
         }
 
         .feature-card {
             background: var(--card-bg);
-            border-radius: 16px;
-            padding: 30px;
+            border-radius: var(--border-radius);
+            padding: 35px;
             box-shadow: var(--card-shadow);
             border: var(--card-border);
             transition: var(--transition);
+            backdrop-filter: blur(10px);
         }
 
         .feature-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(31, 38, 135, 0.2);
+            box-shadow: 0 25px 50px rgba(31, 38, 135, 0.2);
         }
 
         .feature-icon {
-            width: 60px;
-            height: 60px;
+            width: 70px;
+            height: 70px;
             background: rgba(106, 17, 203, 0.1);
-            border-radius: 12px;
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             color: var(--primary);
-            font-size: 24px;
+            font-size: 28px;
         }
 
         .feature-title {
-            font-size: 20px;
+            font-size: 1.375rem;
             font-weight: 600;
             margin-bottom: 15px;
             color: var(--text);
@@ -354,19 +394,21 @@
         .tabs {
             display: flex;
             justify-content: center;
-            margin-bottom: 30px;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.08);
+            flex-wrap: wrap;
         }
 
         .tab-btn {
-            padding: 12px 24px;
+            padding: 16px 32px;
             background: none;
             border: none;
             cursor: pointer;
-            font-weight: 500;
+            font-weight: 600;
             color: var(--text-light);
             position: relative;
             transition: var(--transition);
+            border-radius: 8px 8px 0 0;
         }
 
         .tab-btn.active {
@@ -376,11 +418,12 @@
         .tab-btn.active::after {
             content: '';
             position: absolute;
-            bottom: -1px;
+            bottom: -2px;
             left: 0;
             width: 100%;
-            height: 2px;
+            height: 3px;
             background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
         }
 
         .tab-content {
@@ -395,98 +438,105 @@
         /* Download section */
         .download-options {
             background: var(--card-bg);
-            border-radius: 16px;
-            padding: 30px;
+            border-radius: var(--border-radius);
+            padding: 40px;
             box-shadow: var(--card-shadow);
-            margin-bottom: 80px;
+            margin-bottom: 100px;
             border: var(--card-border);
+            backdrop-filter: blur(10px);
         }
 
         .package-card {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
             border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
             border: 1px solid rgba(0, 0, 0, 0.05);
             transition: var(--transition);
         }
 
         .package-card:hover {
-            background: rgba(106, 17, 203, 0.05);
-            border-color: rgba(106, 17, 203, 0.2);
+            background: rgba(106, 17, 203, 0.08);
+            border-color: rgba(106, 17, 203, 0.3);
+            transform: translateX(5px);
         }
 
         .package-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
         }
 
         .package-name {
             font-weight: 600;
             color: var(--text);
+            font-size: 1.25rem;
         }
 
         .package-version {
             background: rgba(106, 17, 203, 0.1);
             color: var(--primary);
-            padding: 3px 10px;
+            padding: 6px 16px;
             border-radius: 20px;
-            font-size: 12px;
+            font-size: 14px;
             font-weight: 600;
         }
 
         .package-description {
             color: var(--text-light);
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             line-height: 1.6;
         }
 
         .package-details {
             display: flex;
-            gap: 15px;
+            gap: 20px;
             font-size: 14px;
             color: var(--text-light);
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
         }
 
         .package-detail {
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 8px;
         }
 
         /* Documentation */
         .documentation {
-            margin-bottom: 80px;
+            margin-bottom: 100px;
         }
 
         .doc-section {
-            margin-bottom: 40px;
+            margin-bottom: 50px;
         }
 
         .doc-title {
-            font-size: 24px;
+            font-size: 1.75rem;
             font-weight: 600;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             color: var(--text);
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
         .doc-content {
             background: var(--card-bg);
-            border-radius: 12px;
-            padding: 25px;
+            border-radius: var(--border-radius);
+            padding: 30px;
             box-shadow: var(--card-shadow);
             border: var(--card-border);
+            backdrop-filter: blur(10px);
         }
 
         .doc-step {
-            margin-bottom: 20px;
-            padding-bottom: 20px;
+            margin-bottom: 25px;
+            padding-bottom: 25px;
             border-bottom: 1px solid rgba(0, 0, 0, 0.05);
         }
 
@@ -498,8 +548,9 @@
 
         .step-title {
             font-weight: 600;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             color: var(--text);
+            font-size: 1.125rem;
         }
 
         .step-content {
@@ -509,123 +560,156 @@
 
         .code-block {
             background: rgba(0, 0, 0, 0.05);
-            border-radius: 8px;
-            padding: 15px;
-            font-family: 'Courier New', Courier, monospace;
-            margin: 15px 0;
+            border-radius: 12px;
+            padding: 20px;
+            font-family: 'Fira Code', 'Courier New', Courier, monospace;
+            margin: 20px 0;
             overflow-x: auto;
             border: 1px solid rgba(0, 0, 0, 0.05);
             font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .code-block code {
+            display: block;
+            white-space: pre-wrap;
         }
 
         /* Screenshots */
         .screenshots {
-            margin-bottom: 80px;
+            margin-bottom: 100px;
         }
 
         .screenshot-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
         }
 
         .screenshot {
-            border-radius: 12px;
+            border-radius: var(--border-radius);
             overflow: hidden;
             box-shadow: var(--card-shadow);
             transition: var(--transition);
             border: var(--card-border);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .screenshot::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transition: var(--transition);
         }
 
         .screenshot:hover {
-            transform: scale(1.02);
+            transform: translateY(-5px);
+        }
+
+        .screenshot:hover::before {
+            opacity: 1;
         }
 
         .screenshot img {
             width: 100%;
-            height: auto;
+            height: 250px;
+            object-fit: cover;
             display: block;
         }
 
-	    .screenshot-modal {
-	        display: none;
-	        position: fixed;
-	        z-index: 1000;
-	        left: 0;
-	        top: 0;
-	        width: 100%;
-	        height: 100%;
-	        background-color: rgba(0, 0, 0, 0.9);
-	        overflow: auto;
-	        animation: fadeIn 0.3s;
-	        align-items: center;
-	        justify-content: center;
-	    }
+        .screenshot-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            overflow: auto;
+            animation: fadeIn 0.3s;
+            align-items: center;
+            justify-content: center;
+        }
         
-	    .modal-content {
-	        margin: auto;
-	        display: block;
-	        width: 80%;
-	        max-width: 1200px;
-	        max-height: 80vh;
-	        object-fit: contain;
-	        animation: zoomIn 0.3s;
-	        align-self: center;
-	    }
+        .modal-content {
+            margin: auto;
+            display: block;
+            width: 85%;
+            max-width: 1200px;
+            max-height: 80vh;
+            object-fit: contain;
+            animation: zoomIn 0.3s;
+            align-self: center;
+            border-radius: 12px;
+        }
         
-	    .close-modal {
-	        position: fixed;
-	        top: 20px;
-	        right: 35px;
-	        color: white;
-	        font-size: 40px;
-	        font-weight: bold;
-	        cursor: pointer;
-	        transition: 0.3s;
-	    }
+        .close-modal {
+            position: fixed;
+            top: 25px;
+            right: 40px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            z-index: 1001;
+        }
         
         .close-modal:hover {
             color: var(--accent);
         }
         
-	    .screenshot-caption {
-	        position: fixed;
-	        bottom: 20px;
-	        width: 80%;
-	        max-width: 1200px;
-	        text-align: center;
-	        color: white;
-	        padding: 10px 0;
-	        font-size: 18px;
-	        left: 50%;
-	        transform: translateX(-50%);
-	    }
+        .screenshot-caption {
+            position: fixed;
+            bottom: 30px;
+            width: 85%;
+            max-width: 1200px;
+            text-align: center;
+            color: white;
+            padding: 15px 0;
+            font-size: 18px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 8px;
+        }
         
         @keyframes zoomIn {
             from {transform: scale(0.8); opacity: 0;}
             to {transform: scale(1); opacity: 1;}
         }
         
-        /* Przyciski nawigacyjne */
-	    .prev, .next {
-	        cursor: pointer;
-	        position: fixed;
-	        top: 50%;
-	        width: auto;
-	        padding: 16px;
-	        margin-top: -22px;
-	        color: white;
-	        font-weight: bold;
-	        font-size: 24px;
-	        transition: 0.3s;
-	        user-select: none;
-	        background-color: rgba(0, 0, 0, 0.5);
-	        border-radius: 0 5px 5px 0;
-	    }
+        /* Navigation buttons */
+        .prev, .next {
+            cursor: pointer;
+            position: fixed;
+            top: 50%;
+            width: auto;
+            padding: 20px;
+            margin-top: -30px;
+            color: white;
+            font-weight: bold;
+            font-size: 28px;
+            transition: 0.3s;
+            user-select: none;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+            z-index: 1001;
+        }
         
         .next {
-            right: 0;
-            border-radius: 5px 0 0 5px;
+            right: 25px;
+        }
+        
+        .prev {
+            left: 25px;
         }
         
         .prev:hover, .next:hover {
@@ -633,52 +717,41 @@
             color: var(--accent);
         }
         
-        /* Dla małych ekranów */
-        @media (max-width: 768px) {
-            .modal-content {
-                width: 95%;
-            }
-            
-            .close-modal {
-                top: 10px;
-                right: 15px;
-                font-size: 30px;
-            }
-        }
-
         /* Footer */
         .footer {
             text-align: center;
-            padding: 40px 0;
+            padding: 60px 0;
             color: var(--text-light);
-            border-top: 1px solid rgba(0, 0, 0, 0.05);
-            margin-top: 60px;
+            border-top: 1px solid rgba(0, 0, 0, 0.08);
+            margin-top: 80px;
         }
 
         .github-stats {
             display: flex;
             justify-content: center;
-            gap: 20px;
-            margin-bottom: 30px;
+            gap: 25px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
         }
 
         .github-stat {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             background: var(--card-bg);
-            padding: 10px 20px;
-            border-radius: 8px;
+            padding: 15px 25px;
+            border-radius: var(--border-radius);
             border: var(--card-border);
             box-shadow: var(--card-shadow);
+            backdrop-filter: blur(10px);
         }
         
-        /* New styles for tech badges */
+        /* Tech badges */
         .tech-badges {
             display: flex;
             gap: 15px;
             align-items: center;
-            margin-top: 20px;
+            margin-top: 30px;
             flex-wrap: wrap;
             justify-content: center;
         }
@@ -686,22 +759,23 @@
         .tech-badge {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             background: var(--card-bg);
-            padding: 8px 15px;
-            border-radius: 20px;
+            padding: 10px 18px;
+            border-radius: 25px;
             border: var(--card-border);
             box-shadow: var(--card-shadow);
             transition: var(--transition);
+            backdrop-filter: blur(10px);
         }
 
         .tech-badge:hover {
             transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
         }
 
         .tech-badge img {
-            height: 20px;
+            height: 24px;
             width: auto;
         }
 
@@ -713,34 +787,31 @@
         .header-tech {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             margin-left: auto;
         }
 
         .header-tech-item {
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
             font-size: 14px;
             color: var(--text-light);
+            padding: 6px 12px;
+            background: rgba(106, 17, 203, 0.1);
+            border-radius: 8px;
         }
 
         .header-tech-item img {
-            height: 16px;
+            height: 18px;
             width: auto;
-        }
-
-        @media (max-width: 768px) {
-            .header-tech {
-                display: none;
-            }
         }
 
         /* Animations */
         @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(30px);
             }
             to {
                 opacity: 1;
@@ -749,21 +820,21 @@
         }
 
         .fade-in {
-            animation: fadeIn 0.6s ease-out forwards;
+            animation: fadeIn 0.8s ease-out forwards;
         }
 
         /* Responsive */
-        @media (max-width: 768px) {
+        @media (max-width: 968px) {
             .hero-title {
-                font-size: 36px;
+                font-size: 2.5rem;
             }
             
             .hero-subtitle {
-                font-size: 18px;
+                font-size: 1.125rem;
             }
             
             .section-title {
-                font-size: 28px;
+                font-size: 2rem;
             }
             
             .hero-buttons {
@@ -774,6 +845,113 @@
             .nav {
                 display: none;
             }
+
+            .package-details {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 20px 0;
+            }
+            
+            .hero {
+                padding: 80px 0;
+            }
+            
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.75rem;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+            
+            .download-options {
+                padding: 25px;
+            }
+            
+            .tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .tab-btn {
+                width: 100%;
+                text-align: center;
+                border-radius: 8px;
+                margin-bottom: 10px;
+            }
+            
+            .tab-btn.active::after {
+                display: none;
+            }
+            
+            .modal-content {
+                width: 95%;
+            }
+            
+            .close-modal {
+                top: 15px;
+                right: 20px;
+                font-size: 30px;
+            }
+            
+            .prev, .next {
+                padding: 15px;
+                font-size: 24px;
+            }
+        }
+
+        /* Mobile menu button */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 968px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .nav {
+                position: fixed;
+                top: 0;
+                right: -300px;
+                width: 300px;
+                height: 100vh;
+                background: var(--card-bg);
+                flex-direction: column;
+                padding: 80px 30px 30px;
+                transition: right 0.3s ease;
+                z-index: 99;
+                box-shadow: -5px 0 25px rgba(0, 0, 0, 0.1);
+            }
+            
+            .nav.active {
+                right: 0;
+            }
+            
+            .close-menu {
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                background: none;
+                border: none;
+                font-size: 24px;
+                color: var(--text);
+                cursor: pointer;
+            }
         }
     </style>
 </head>
@@ -782,6 +960,7 @@
     <div class="background-shapes">
         <div class="shape shape-1"></div>
         <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
     </div>
 
     <div class="main-container">
@@ -792,11 +971,19 @@
                 <div class="logo-text">NAS-PANEL</div>
             </div>
             
-            <div class="nav">
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <div class="nav" id="mainNav">
+                <button class="close-menu" id="closeMenu">
+                    <i class="fas fa-times"></i>
+                </button>
                 <a href="#features" class="nav-link">Features</a>
                 <a href="#download" class="nav-link">Download</a>
                 <a href="#documentation" class="nav-link">Documentation</a>
                 <a href="#screenshots" class="nav-link">Screenshots</a>
+                <a href="http://forum.naspanel.site/" class="nav-link" target="_blank">Forum</a>
                 
                 <div class="header-tech">
                     <div class="header-tech-item">
@@ -813,17 +1000,17 @@
                     </div>
                 </div>
 
-		    <a href="https://discord.gg/ZypS5wwa" class="nav-link" target="_blank" style="display: flex; align-items: center; gap: 5px;">
-			    <i class="fab fa-discord"></i>
-			    <span>Discord</span>
-		    </a>
+                <a href="https://discord.gg/ZypS5wwa" class="nav-link" target="_blank" style="display: flex; align-items: center; gap: 5px;">
+                    <i class="fab fa-discord"></i>
+                    <span>Discord</span>
+                </a>
                 
-		    <div>
-			<label class="theme-switch">
-			    <input type="checkbox" id="theme-toggle">
-			    <span class="slider"></span>
-			</label>
-		    </div>
+                <div>
+                    <label class="theme-switch">
+                        <input type="checkbox" id="theme-toggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
             </div>
         </div>
 
@@ -868,10 +1055,10 @@
                     <span>Debian/Ubuntu</span>
                 </div>
             </div>
-		<br />
-	    	    <a href="https://discord.gg/ZypS5wwa" class="btn btn-outline" target="_blank" style="background: #5865F2; color: white; border-color: #5865F2;">
-        		<i class="fab fa-discord"></i> Join Discord
-		    </a>
+            <br />
+            <a href="https://discord.gg/ZypS5wwa" class="btn btn-outline" target="_blank" style="background: #5865F2; color: white; border-color: #5865F2;">
+                <i class="fab fa-discord"></i> Join Discord
+            </a>
         </div>
 
         <!-- Features -->
@@ -960,80 +1147,80 @@
             <div class="download-options">
                 <div class="tabs">
                     <button class="tab-btn active" data-tab="debian">Debian Packages</button>
-                    <button class="tab-btn" data-tab="docker">Docker</button>
+                    <button class="tab-btn" data-tab="apt">APT Installer</button>
                     <button class="tab-btn" data-tab="source">Source Code</button>
-		    <button class="tab-btn" data-tab="installer">Installer Script</button>
+                    <button class="tab-btn" data-tab="installer">Installer Script</button>
                 </div>
                 
                 <div class="tab-content active" id="debian-tab">
-			<div class="package-card" id="nas-panel-package">
-			    <div class="package-header">
-				<h3 class="package-name">NAS-Panel</h3>
-				<span class="package-version">Ładowanie wersji...</span>
-			    </div>
-			    <p class="package-description">
-				The main web interface package for NAS-Panel. Provides the admin dashboard and management tools.
-			    </p>
-			    <div class="package-details">
-				<div class="package-detail">
-				    <i class="fas fa-box-open"></i>
-				    <span>.deb package</span>
-				</div>
-				<div class="package-detail">
-				    <i class="fas fa-microchip"></i>
-				    <span>amd64</span>
-				</div>
-				<div class="package-detail">
-				    <i class="fas fa-download"></i>
-				    <span class="package-size">Ładowanie rozmiaru...</span>
-				</div>
-			    </div>
-			    <a href="#" class="btn btn-primary download-link" target="_blank">
-				<i class="fas fa-download"></i>
-				Download
-			    </a>
-			</div>
-			
-			<div class="package-card" id="nas-webserver-package">
-			    <div class="package-header">
-				<h3 class="package-name">NAS-Webserver</h3>
-				<span class="package-version">Ładowanie wersji...</span>
-			    </div>
-			    <p class="package-description">
-				The backend server component for NAS-Panel. Handles system operations and provides the API.
-			    </p>
-			    <div class="package-details">
-				<div class="package-detail">
-				    <i class="fas fa-box-open"></i>
-				    <span>.deb package</span>
-				</div>
-				<div class="package-detail">
-				    <i class="fas fa-microchip"></i>
-				    <span>amd64</span>
-				</div>
-				<div class="package-detail">
-				    <i class="fas fa-download"></i>
-				    <span class="package-size">Ładowanie rozmiaru...</span>
-				</div>
-			    </div>
-			    <a href="#" class="btn btn-primary download-link" target="_blank">
-				<i class="fas fa-download"></i>
-				Download
-			    </a>
-			</div>
+                    <div class="package-card" id="nas-panel-package">
+                        <div class="package-header">
+                            <h3 class="package-name">NAS-Panel</h3>
+                            <span class="package-version">Ładowanie wersji...</span>
+                        </div>
+                        <p class="package-description">
+                            The main web interface package for NAS-Panel. Provides the admin dashboard and management tools.
+                        </p>
+                        <div class="package-details">
+                            <div class="package-detail">
+                                <i class="fas fa-box-open"></i>
+                                <span>.deb package</span>
+                            </div>
+                            <div class="package-detail">
+                                <i class="fas fa-microchip"></i>
+                                <span>amd64</span>
+                            </div>
+                            <div class="package-detail">
+                                <i class="fas fa-download"></i>
+                                <span class="package-size">Ładowanie rozmiaru...</span>
+                            </div>
+                        </div>
+                        <a href="#" class="btn btn-primary download-link" target="_blank">
+                            <i class="fas fa-download"></i>
+                            Download
+                        </a>
+                    </div>
+                    
+                    <div class="package-card" id="nas-webserver-package">
+                        <div class="package-header">
+                            <h3 class="package-name">NAS-Webserver</h3>
+                            <span class="package-version">Ładowanie wersji...</span>
+                        </div>
+                        <p class="package-description">
+                            The backend server component for NAS-Panel. Handles system operations and provides the API.
+                        </p>
+                        <div class="package-details">
+                            <div class="package-detail">
+                                <i class="fas fa-box-open"></i>
+                                <span>.deb package</span>
+                            </div>
+                            <div class="package-detail">
+                                <i class="fas fa-microchip"></i>
+                                <span>amd64</span>
+                            </div>
+                            <div class="package-detail">
+                                <i class="fas fa-download"></i>
+                                <span class="package-size">Ładowanie rozmiaru...</span>
+                            </div>
+                        </div>
+                        <a href="#" class="btn btn-primary download-link" target="_blank">
+                            <i class="fas fa-download"></i>
+                            Download
+                        </a>
+                    </div>
                 </div>
                 
-                <div class="tab-content" id="docker-tab">
+                <div class="tab-content" id="apt-tab">
                     <div class="code-block">
-                        # Pull the latest NAS-Panel Docker image<br>
-                        docker pull gekomod/nas-panel:latest<br><br>
+                        # Dodaj klucz GPG<br>
+                        sudo wget -qO - https://repo.naspanel.site/KEY.gpg | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/nas-repo.gpg<br><br>
                         
-                        # Run the container<br>
-                        docker run -d \<br>
-                        &nbsp;&nbsp;-p 8080:80 \<br>
-                        &nbsp;&nbsp;-v /path/to/config:/app/config \<br>
-                        &nbsp;&nbsp;--name nas-panel \<br>
-                        &nbsp;&nbsp;gekomod/nas-panel:latest
+                        # Dodaj repozytorium<br>
+                        echo "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/nas-repo.gpg] https://repo.naspanel.site/ stable main" | sudo tee /etc/apt/sources.list.d/nas-repo.list<br><br>
+                        
+                        # Aktualizuj i instaluj<br>
+                        sudo apt update<br>
+                        sudo apt install nas-panel nas-web
                     </div>
                 </div>
                 
@@ -1054,24 +1241,24 @@
                     </div>
                 </div>
 
-		<div class="tab-content" id="installer-tab">
-		    <div class="code-block">
-		        # Download and run the installer script<br>
-		        curl -sSL https://gist.githubusercontent.com/gekomod/16a940f9e53dc3510562053393fce798/raw/da7d2103e0acb542cc32a86fd4384740a79cade4/install.sh | bash<br><br>
-		        
-		        # Or download first and inspect before running<br>
-		        wget https://gist.githubusercontent.com/gekomod/16a940f9e53dc3510562053393fce798/raw/da7d2103e0acb542cc32a86fd4384740a79cade4/install.sh<br>
-		        chmod +x install.sh<br>
-		        ./install.sh
-		    </div>
-		    
-		    <div style="margin-top: 20px; text-align: center;">
-		        <a href="https://gist.githubusercontent.com/gekomod/16a940f9e53dc3510562053393fce798/raw/da7d2103e0acb542cc32a86fd4384740a79cade4/install.sh" class="btn btn-primary" target="_blank" download="nas-panel-installer.sh">
-		            <i class="fas fa-download"></i>
-		            Download Installer Script
-		        </a>
-		    </div>
-		</div>
+                <div class="tab-content" id="installer-tab">
+                    <div class="code-block">
+                        # Download and run the installer script<br>
+                        curl -sSL https://gist.githubusercontent.com/gekomod/16a940f9e53dc3510562053393fce798/raw/da7d2103e0acb542cc32a86fd4384740a79cade4/install.sh | bash<br><br>
+                        
+                        # Or download first and inspect before running<br>
+                        wget https://gist.githubusercontent.com/gekomod/16a940f9e53dc3510562053393fce798/raw/da7d2103e0acb542cc32a86fd4384740a79cade4/install.sh<br>
+                        chmod +x install.sh<br>
+                        ./install.sh
+                    </div>
+                    
+                    <div style="margin-top: 20px; text-align: center;">
+                        <a href="https://gist.githubusercontent.com/gekomod/16a940f9e53dc3510562053393fce798/raw/da7d2103e0acb542cc32a86fd4384740a79cade4/install.sh" class="btn btn-primary" target="_blank" download="nas-panel-installer.sh">
+                            <i class="fas fa-download"></i>
+                            Download Installer Script
+                        </a>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -1093,8 +1280,8 @@
                             <h4 class="step-title">1. Installation</h4>
                             <div class="step-content">
                                 <p>Install both packages on your Debian-based system:</p>
-                                <div class="code-block">
-                                    sudo dpkg -i nas-webserver_1.2.2_amd64.deb<br>
+                                <div class="code-block" id="installation-code">
+                                    sudo dpkg -i nas-web_1.2.2_amd64.deb<br>
                                     sudo dpkg -i nas-panel_1.0.3_amd64.deb<br>
                                     sudo apt-get install -f  # Install dependencies
                                 </div>
@@ -1181,13 +1368,13 @@
             </div>
         </section>
 
-		<div id="screenshotModal" class="screenshot-modal">
-	        <span class="close-modal" onclick="closeModal()">&times;</span>
-	        <span class="prev" onclick="plusSlides(-1)">&#10094;</span>
-	        <span class="next" onclick="plusSlides(1)">&#10095;</span>
-	        <img class="modal-content" id="modalImage">
-	        <div class="screenshot-caption" id="caption"></div>
-	    </div>
+        <div id="screenshotModal" class="screenshot-modal">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <span class="prev" onclick="plusSlides(-1)">&#10094;</span>
+            <span class="next" onclick="plusSlides(1)">&#10095;</span>
+            <img class="modal-content" id="modalImage">
+            <div class="screenshot-caption" id="caption"></div>
+        </div>
 
         <!-- GitHub stats -->
         <div class="github-stats">
@@ -1224,10 +1411,6 @@
                     <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" alt="Docker">
                     <span>Docker</span>
                 </div>
-                <div class="tech-badge">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nginx/nginx-original.svg" alt="Nginx">
-                    <span>Nginx</span>
-                </div>
             </div>
             
             <p>NAS-Panel is an open-source project licensed under MIT License</p>
@@ -1243,7 +1426,6 @@
                 $('body').attr('data-theme', theme);
                 localStorage.setItem('theme', theme);
                 $('#theme-toggle').prop('checked', isDark);
-                console.log('Motyw ustawiony na:', theme);
             }
 
             // Sprawdź zapisany motyw lub preferencje systemowe
@@ -1273,41 +1455,65 @@
                 }
             });
 
-            // Debugowanie - sprawdź czy przełącznik istnieje
-            if ($('#theme-toggle').length) {
-                console.log('Przełącznik znaleziony');
-            } else {
-                console.error('Przełącznik NIE znaleziony!');
-            }
-            
-            function fetchReleases() {
-                // NAS-Panel
-                $.getJSON('https://api.github.com/repos/gekomod/nas-panel/releases/latest')
-                    .done(function(data) {
-                        const debAsset = data.assets.find(asset => asset.name.endsWith('.deb'));
-                        if (debAsset) {
-                            $('#nas-panel-package .package-version').text(`v${data.tag_name}`);
-                            $('#nas-panel-package .package-size').text(formatFileSize(debAsset.size));
-                            $('#nas-panel-package .download-link').attr('href', debAsset.browser_download_url);
-                        }
-                    })
-                    .fail(function() {
-                        $('#nas-panel-package .package-version').text('Błąd ładowania');
-                    });
+            // Mobile menu functionality
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const closeMenuBtn = document.getElementById('closeMenu');
+            const mainNav = document.getElementById('mainNav');
 
-                // NAS-Webserver
-                $.getJSON('https://api.github.com/repos/gekomod/nas-webserver/releases/latest')
-                    .done(function(data) {
-                        const debAsset = data.assets.find(asset => asset.name.endsWith('.deb'));
-                        if (debAsset) {
-                            $('#nas-webserver-package .package-version').text(`v${data.tag_name}`);
-                            $('#nas-webserver-package .package-size').text(formatFileSize(debAsset.size));
-                            $('#nas-webserver-package .download-link').attr('href', debAsset.browser_download_url);
+            if (mobileMenuBtn && closeMenuBtn && mainNav) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    mainNav.classList.add('active');
+                });
+
+                closeMenuBtn.addEventListener('click', () => {
+                    mainNav.classList.remove('active');
+                });
+            }
+
+            // Funkcja do pobierania informacji o release'ach
+            async function fetchReleases() {
+                try {
+                    // Pobierz informacje o najnowszym release NAS-Webserver
+                    const webResponse = await fetch('https://api.github.com/repos/gekomod/nas-webserver/releases/latest');
+                    const webData = await webResponse.json();
+                    
+                    // Pobierz informacje o najnowszym release NAS-Panel
+                    const panelResponse = await fetch('https://api.github.com/repos/gekomod/nas-panel/releases/latest');
+                    const panelData = await panelResponse.json();
+                    
+                    // Znajdź pliki .deb
+                    const webDebAsset = webData.assets.find(asset => asset.name.endsWith('.deb'));
+                    const panelDebAsset = panelData.assets.find(asset => asset.name.endsWith('.deb'));
+                    
+                    // Aktualizuj informacje o NAS-Webserver
+                    if (webDebAsset) {
+                        $('#nas-webserver-package .package-version').text(`v${webData.tag_name}`);
+                        $('#nas-webserver-package .package-size').text(formatFileSize(webDebAsset.size));
+                        $('#nas-webserver-package .download-link').attr('href', webDebAsset.browser_download_url);
+                    }
+                    
+                    // Aktualizuj informacje o NAS-Panel
+                    if (panelDebAsset) {
+                        $('#nas-panel-package .package-version').text(`v${panelData.tag_name}`);
+                        $('#nas-panel-package .package-size').text(formatFileSize(panelDebAsset.size));
+                        $('#nas-panel-package .download-link').attr('href', panelDebAsset.browser_download_url);
+                    }
+                    
+                    // Aktualizuj instrukcje instalacji w dokumentacji
+                    if (webDebAsset && panelDebAsset) {
+                        const installationCode = document.getElementById('installation-code');
+                        if (installationCode) {
+                            installationCode.innerHTML = `sudo dpkg -i ${webDebAsset.name}<br>sudo dpkg -i ${panelDebAsset.name}<br>sudo apt-get install -f  # Install dependencies`;
                         }
-                    })
-                    .fail(function() {
-                        $('#nas-webserver-package .package-version').text('Błąd ładowania');
-                    });
+                    }
+                    
+                } catch (error) {
+                    console.error('Error fetching releases:', error);
+                    $('#nas-panel-package .package-version').text('Error loading');
+                    $('#nas-webserver-package .package-version').text('Error loading');
+                    $('#nas-panel-package .package-size').text('Error loading');
+                    $('#nas-webserver-package .package-size').text('Error loading');
+                }
             }
 
             // Formatowanie rozmiaru pliku
@@ -1322,7 +1528,6 @@
             // Inicjalizacja
             fetchReleases();
         });
-        
         
         // Tabs functionality
         const tabBtns = document.querySelectorAll('.tab-btn');
@@ -1375,7 +1580,7 @@
             });
         };
 
-		let currentSlideIndex = 0;
+        let currentSlideIndex = 0;
         const screenshots = [
             {
                 src: "https://raw.githubusercontent.com/gekomod/naspanel.site/refs/heads/main/dash.png",
