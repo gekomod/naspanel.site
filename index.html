@@ -112,24 +112,39 @@
             padding: 0 20px;
         }
 
-        /* Header */
-        .header {
-            display: flex;
-            justify-content: center;
-            align-items: baseline;
-            padding: 30px 0;
+        /* Header - now full width */
+        .header-container {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(10px);
             position: sticky;
             top: 0;
             z-index: 100;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="dark"] .header-container {
+            background: rgba(18, 18, 18, 0.8);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-evenly;
+            align-items: baseline;
+            padding: 20px 0;
+            /* max-width: 1200px; */
+            margin: 0 auto;
+            letter-spacing: 0.8px;
+            align-content: center;
             flex-wrap: wrap;
-            align-content: stretch;
         }
 
         .logo-container {
             display: flex;
             align-items: center;
             gap: 14px;
+            flex-shrink: 0;
         }
 
         .logo-icon {
@@ -154,6 +169,7 @@
             background-clip: text;
             color: transparent;
             letter-spacing: 0.8px;
+            white-space: nowrap;
         }
 
         /* Navigation */
@@ -161,6 +177,8 @@
             display: flex;
             align-items: center;
             gap: 25px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
         }
 
         .nav-link {
@@ -171,6 +189,7 @@
             position: relative;
             padding: 8px 12px;
             border-radius: 10px;
+            white-space: nowrap;
         }
 
         .nav-link:hover {
@@ -201,6 +220,7 @@
             width: 50px;
             height: 26px;
             margin-left: 20px;
+            flex-shrink: 0;
         }
 
         .theme-switch input {
@@ -608,6 +628,7 @@
             background: rgba(0, 0, 0, 0.2);
             opacity: 0;
             transition: var(--transition);
+            z-index: 1;
         }
 
         .screenshot:hover {
@@ -825,7 +846,41 @@
             animation: fadeIn 0.8s ease-out forwards;
         }
 
+        /* Mobile menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 101;
+        }
+
+        .close-menu {
+            display: none;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text);
+            cursor: pointer;
+            z-index: 102;
+        }
+
         /* Responsive */
+        @media (max-width: 1100px) {
+            .nav {
+                gap: 15px;
+            }
+            
+            .header-tech {
+                display: none;
+            }
+        }
+
         @media (max-width: 968px) {
             .hero-title {
                 font-size: 2.5rem;
@@ -844,10 +899,35 @@
                 align-items: center;
             }
             
-            .nav {
-                display: none;
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .close-menu {
+                display: block;
             }
 
+            .nav {
+                position: fixed;
+                top: 0;
+                right: -300px;
+                width: 300px;
+                height: 100vh;
+                background: var(--card-bg);
+                flex-direction: column;
+                padding: 80px 30px 30px;
+                transition: right 0.3s ease;
+                z-index: 99;
+                box-shadow: -5px 0 25px rgba(0, 0, 0, 0.1);
+                justify-content: flex-start;
+                align-items: flex-start;
+                gap: 20px;
+            }
+            
+            .nav.active {
+                right: 0;
+            }
+            
             .package-details {
                 flex-direction: column;
                 gap: 10px;
@@ -856,7 +936,7 @@
 
         @media (max-width: 768px) {
             .header {
-                padding: 20px 0;
+                padding: 15px 0;
             }
             
             .hero {
@@ -909,50 +989,40 @@
                 padding: 15px;
                 font-size: 24px;
             }
-        }
 
-        /* Mobile menu button */
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            color: var(--text);
-            font-size: 24px;
-            cursor: pointer;
-        }
-
-        @media (max-width: 968px) {
-            .mobile-menu-btn {
-                display: block;
-            }
-            
-            .nav {
-                position: fixed;
-                top: 0;
-                right: -300px;
-                width: 300px;
-                height: 100vh;
-                background: var(--card-bg);
-                flex-direction: column;
-                padding: 80px 30px 30px;
-                transition: right 0.3s ease;
-                z-index: 99;
-                box-shadow: -5px 0 25px rgba(0, 0, 0, 0.1);
-            }
-            
-            .nav.active {
-                right: 0;
-            }
-            
-            .close-menu {
-                position: absolute;
-                top: 20px;
-                right: 20px;
-                background: none;
-                border: none;
+            .logo-text {
                 font-size: 24px;
-                color: var(--text);
-                cursor: pointer;
+            }
+
+            .logo-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 18px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 1.75rem;
+            }
+            
+            .hero-buttons .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .tech-badges {
+                justify-content: center;
+            }
+            
+            .tech-badge {
+                flex: 1;
+                min-width: 120px;
+                justify-content: center;
+            }
+
+            .logo-text {
+                font-size: 20px;
             }
         }
     </style>
@@ -965,6 +1035,8 @@
         <div class="shape shape-3"></div>
     </div>
 
+    <!-- Header with full width -->
+    <div class="header-container">
         <div class="header">
             <div class="logo-container">
                 <div class="logo-icon">N</div>
@@ -979,11 +1051,11 @@
                 <button class="close-menu" id="closeMenu">
                     <i class="fas fa-times"></i>
                 </button>
-                <a href="#features" class="nav-link">Features</a>
-                <a href="#download" class="nav-link">Download</a>
-                <a href="#documentation" class="nav-link">Documentation</a>
-                <a href="#screenshots" class="nav-link">Screenshots</a>
-                <a href="http://forum.naspanel.site/" class="nav-link" target="_blank">Forum</a>
+                <a href="#features" class="nav-link" onclick="closeMobileMenu()">Features</a>
+                <a href="#download" class="nav-link" onclick="closeMobileMenu()">Download</a>
+                <a href="#documentation" class="nav-link" onclick="closeMobileMenu()">Documentation</a>
+                <a href="#screenshots" class="nav-link" onclick="closeMobileMenu()">Screenshots</a>
+                <a href="http://forum.naspanel.site/" class="nav-link" target="_blank" onclick="closeMobileMenu()">Forum</a>
                 
                 <div class="header-tech">
                     <div class="header-tech-item">
@@ -1000,7 +1072,7 @@
                     </div>
                 </div>
 
-                <a href="https://discord.gg/ZypS5wwa" class="nav-link" target="_blank" style="display: flex; align-items: center; gap: 5px;">
+                <a href="https://discord.gg/ZypS5wwa" class="nav-link" target="_blank" style="display: flex; align-items: center; gap: 5px;" onclick="closeMobileMenu()">
                     <i class="fab fa-discord"></i>
                     <span>Discord</span>
                 </a>
@@ -1013,8 +1085,10 @@
                 </div>
             </div>
         </div>
-    
+    </div>
+
     <div class="main-container">
+        <!-- Hero section -->
         <div class="hero">
             <h1 class="hero-title">Modern NAS Management Solution</h1>
             <p class="hero-subtitle">
@@ -1419,6 +1493,14 @@
     </div>
 
     <script>
+        // Funkcja do zamykania menu mobilnego
+        function closeMobileMenu() {
+            const mainNav = document.getElementById('mainNav');
+            if (mainNav) {
+                mainNav.classList.remove('active');
+            }
+        }
+
         $(document).ready(function() {
             // Funkcja do ustawiania motywu
             function setTheme(isDark) {
@@ -1455,20 +1537,29 @@
                 }
             });
 
-            // Mobile menu functionality
+            // Mobile menu functionality - poprawiona obsługa
             const mobileMenuBtn = document.getElementById('mobileMenuBtn');
             const closeMenuBtn = document.getElementById('closeMenu');
             const mainNav = document.getElementById('mainNav');
 
-            if (mobileMenuBtn && closeMenuBtn && mainNav) {
+            if (mobileMenuBtn) {
                 mobileMenuBtn.addEventListener('click', () => {
                     mainNav.classList.add('active');
                 });
+            }
 
+            if (closeMenuBtn) {
                 closeMenuBtn.addEventListener('click', () => {
                     mainNav.classList.remove('active');
                 });
             }
+
+            // Zamknij menu po kliknięciu na link
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    mainNav.classList.remove('active');
+                });
+            });
 
             // Funkcja do pobierania informacji o release'ach
             async function fetchReleases() {
